@@ -5,25 +5,26 @@ class encryption_decryption:
         self.message=message
     
     def encrypt(self):
-        data = bytes(self.message)
+        data = bytes(self.message,encoding="UTF-8")
         aad = b"authenticated but unencrypted data"
         key=ChaCha20Poly1305.generate_key()
         chacha = ChaCha20Poly1305(key)
-        nonce=str(int(os.urandom(16).encode('hex'),16)) 
+        nonce=os.urandom(12) 
         ct = chacha.encrypt(nonce, data, aad)
         print(ct)
         return ct
  
     @staticmethod
-    def decryptt(self):
+    def decryptt(message):
         key=ChaCha20Poly1305.generate_key()
         aad = b"authenticated but unencrypted data"
         chacha = ChaCha20Poly1305(key)
-        nonce=str(int(os.urandom(16).encode('hex'),16)) 
-        return chacha.decrypt(nonce, encryption_decryption.encrypt(self), aad)
+        nonce=os.urandom(12) 
+        return chacha.decrypt(nonce,bytes(message), aad)
 
 
 ab=encryption_decryption('dark penguin')
 
-ab.encrypt()
+a=ab.encrypt()
+ab.decryptt(a)
 
