@@ -1,5 +1,6 @@
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 import os
+import struct
 class encryption_decryption:
     def __init__(self,message):
         self.message=message
@@ -11,20 +12,15 @@ class encryption_decryption:
         chacha = ChaCha20Poly1305(key)
         nonce=os.urandom(12) 
         ct = chacha.encrypt(nonce, data, aad)
-        print(ct)
+        #print(ct)
+        new_str=str(ct).split('\\x')
+        #print(new_str)    
+        print("".join(new_str))
         return ct
- 
-    @staticmethod
-    def decryptt(message):
-        key=ChaCha20Poly1305.generate_key()
-        aad = b"authenticated but unencrypted data"
-        chacha = ChaCha20Poly1305(key)
-        nonce=os.urandom(12) 
-        return chacha.decrypt(nonce,bytes(message), aad)
 
-
-ab=encryption_decryption('dark penguin')
+message=input("enter your message to encrypt:")
+ab=encryption_decryption(message)
 
 a=ab.encrypt()
-ab.decryptt(a)
+
 
